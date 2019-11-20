@@ -1,11 +1,12 @@
 package com.example.reportingsystemmobile.login;
 
+import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.POST;
 
-public interface LoginApiInterface{
+public interface LoginApiInterface {
 
     @POST("/login")
-    LoginResponse login(@Body LoginData loginData);
+    Call<LoginResponse> login(@Body LoginData loginData);
 
 }

@@ -4,22 +4,11 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-    <Button
-            android:id="@+id/login_button"
-            android:layout_width="200dp"
-            android:layout_height="80dp"
-            android:text="Login"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.497"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.696" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
     <EditText
-            android:id="@+id/username_edittext"
+            android:id="@+id/username_editText"
             android:layout_width="200dp"
             android:layout_height="60dp"
             android:ems="10"
@@ -27,34 +16,58 @@
             android:text="Username"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintHorizontal_bias="0.502"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.385" />
+            app:layout_constraintVertical_bias="0.165" />
 
     <EditText
-            android:id="@+id/password_edittext"
+            android:id="@+id/email_editText"
             android:layout_width="200dp"
             android:layout_height="60dp"
             android:ems="10"
-            android:inputType="textPassword"
-            android:text="Passowrd"
+            android:inputType="textPersonName"
+            android:text="email"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.517" />
+            app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-            android:id="@+id/registerAcc_button"
+            android:id="@+id/register_button"
             android:layout_width="200dp"
-            android:layout_height="wrap_content"
+            android:layout_height="80dp"
             android:text="Register"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.882" />
+            app:layout_constraintVertical_bias="0.834" />
+
+    <EditText
+            android:id="@+id/password_editText"
+            android:layout_width="200dp"
+            android:layout_height="60dp"
+            android:ems="10"
+            android:inputType="textPassword"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.502"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.326" />
+
+    <EditText
+            android:id="@+id/mobileNumber_editText"
+            android:layout_width="200dp"
+            android:layout_height="60dp"
+            android:ems="10"
+            android:inputType="phone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.502"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.666" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -9,11 +9,11 @@ public class RestServiceBuilder {
 
     private static Retrofit retrofit = null;
 
-    static Retrofit getClient() {
+    public static Retrofit getClient() {
 
         OkHttpClient client = new OkHttpClient.Builder().build();
 
-        String url = "http://localhost:8080";
+        String url = "http://192.168.2.10:8080";
 
         retrofit = new Retrofit.Builder()
                 .baseUrl(url)
