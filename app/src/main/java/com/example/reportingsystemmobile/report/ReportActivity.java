@@ -16,6 +16,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.reportingsystemmobile.R;
 
+import java.io.ByteArrayOutputStream;
+import java.io.OutputStream;
 import java.nio.ByteBuffer;
 import java.util.Base64;
 
@@ -61,7 +63,9 @@ public class ReportActivity extends AppCompatActivity {
             int size = bitmap.getRowBytes() * bitmap.getHeight();
             ByteBuffer byteBuffer = ByteBuffer.allocate(size);
             bitmap.copyPixelsToBuffer(byteBuffer);
-            reportData.setImage(Base64.getEncoder().encode(byteBuffer.array()));
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
+            reportData.setImage(Base64.getEncoder().encodeToString(out.toByteArray()));
 
             new Thread(() -> reportService.sendNewReport(reportData)).start();
             System.out.println(reportData.toString());

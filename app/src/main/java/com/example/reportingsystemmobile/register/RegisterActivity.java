@@ -16,7 +16,7 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText usernameEditText;
     private EditText passwordEditText;
     private EditText emailEditText;
-    private EditText moblieNumberEditText;
+    private EditText mobileNumberEditText;
     private Button registerButton;
     private RegisterService registerService;
 
@@ -28,7 +28,7 @@ public class RegisterActivity extends AppCompatActivity {
         usernameEditText = findViewById(R.id.username_editText);
         passwordEditText = findViewById(R.id.password_editText);
         emailEditText = findViewById(R.id.email_editText);
-        moblieNumberEditText = findViewById(R.id.mobileNumber_editText);
+        mobileNumberEditText = findViewById(R.id.mobileNumber_editText);
         registerButton = findViewById(R.id.register_button);
         registerService = new RegisterService(this);
 
@@ -37,11 +37,10 @@ public class RegisterActivity extends AppCompatActivity {
             registerData.setUsername(usernameEditText.getText().toString());
             registerData.setPassword(passwordEditText.getText().toString());
             registerData.setEmail(emailEditText.getText().toString());
-            registerData.setMobileNumber(moblieNumberEditText.getText().toString());
+            registerData.setMobileNumber(mobileNumberEditText.getText().toString());
 
             new Thread(() -> registerService.register(registerData)).start();
         });
-
     }
 
     public void changeActivity(Intent intent) {

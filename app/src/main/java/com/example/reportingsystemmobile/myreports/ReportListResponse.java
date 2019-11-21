@@ -1,22 +1,18 @@
-package com.example.reportingsystemmobile.report;
+package com.example.reportingsystemmobile.myreports;
 
-
-public class ReportData {
-
-    private String description;
+public class ReportListResponse {
+    private int id;
     private String image;
     private String street;
     private String houseNumber;
     private String city;
-    private String coordinate;
-    private int authorId;
 
-    public String getDescription() {
-        return description;
+    public int getId() {
+        return id;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getImage() {
@@ -49,21 +45,5 @@ public class ReportData {
 
     public void setCity(String city) {
         this.city = city;
-    }
-
-    public String getCoordinate() {
-        return coordinate;
-    }
-
-    public void setCoordinate(String coordinate) {
-        this.coordinate = coordinate;
-    }
-
-    public int getAuthorId() {
-        return authorId;
-    }
-
-    public void setAuthorId(int authorId) {
-        this.authorId = authorId;
     }
 }
