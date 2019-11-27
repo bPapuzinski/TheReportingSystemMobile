@@ -6,7 +6,7 @@ import retrofit2.http.POST;
 
 public interface RegisterApiInterface {
 
-    @POST("/user/register")
+    @POST("/register")
     Call<RegisterResponse> registerNewAccount(@Body RegisterData registerData);
 
 }

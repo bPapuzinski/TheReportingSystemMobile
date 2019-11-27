@@ -39,7 +39,7 @@ public class RegisterActivity extends AppCompatActivity {
             registerData.setEmail(emailEditText.getText().toString());
             registerData.setMobileNumber(mobileNumberEditText.getText().toString());
 
-            new Thread(() -> registerService.register(registerData)).start();
+            registerService.register(registerData);
         });
     }
 

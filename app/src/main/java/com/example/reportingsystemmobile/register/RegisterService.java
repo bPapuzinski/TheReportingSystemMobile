@@ -4,6 +4,10 @@ import android.content.Intent;
 
 import com.example.reportingsystemmobile.RestServiceBuilder;
 import com.example.reportingsystemmobile.login.LoginActivity;
+import com.google.gson.Gson;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import java.io.IOException;
 
@@ -11,34 +15,52 @@ public class RegisterService {
 
     private RegisterActivity registerActivity;
 
-    private RegisterApiInterface registerApiInterface = RestServiceBuilder.getClient().create(RegisterApiInterface.class);
+    private RegisterApiInterface registerApiInterface;
 
     public RegisterService(RegisterActivity registerActivity) {
         this.registerActivity = registerActivity;
+        registerApiInterface = RestServiceBuilder.getClient(registerActivity.getApplicationContext()).create(RegisterApiInterface.class);
     }
 
     public void register(RegisterData registerData) {
 
-        try {
-            RegisterResponse response = registerApiInterface.registerNewAccount(registerData).execute().body();
-            if (response.getHttpCode() == 201) {
-                registerActivity.displayToast("New account created");
-                registerActivity.changeActivity(new Intent(registerActivity.getApplicationContext(), LoginActivity.class));
-            }
-            if (response.getHttpCode() == 400) {
-                registerActivity.displayToast("Bad request");
-            }
-            if (response.getHttpCode() == 409) {
-                if (response.getMessage().equals("Not unique Username")) {
-                    registerActivity.displayToast("Not unique Username");
+        registerApiInterface.registerNewAccount(registerData).enqueue(new Callback<RegisterResponse>() {
+
+            @Override
+            public void onResponse(Call<RegisterResponse> call, Response<RegisterResponse> response) {
+                if (response.isSuccessful()) {
+                    RegisterResponse registerResponse = response.body();
+                    if (registerResponse.getHttpCode() == 201) {
+                        registerActivity.displayToast("New account created");
+                        registerActivity.changeActivity(new Intent(registerActivity.getApplicationContext(), LoginActivity.class));
+                    }
+                } else {
+                    Gson g = new Gson();
+                    try {
+                        RegisterResponse registerResponse1 = g.fromJson(response.errorBody().string(), RegisterResponse.class);
+
+                        if (response.code() == 400) {
+                            registerActivity.displayToast("Bad request");
+                        }
+                        if (response.code() == 409) {
+                            if (registerResponse1.getMessage().equals("Not unique Username")) {
+                                registerActivity.displayToast("Not unique Username");
+                            }
+                            if (registerResponse1.getMessage().equals("Not unique Email")) {
+                                registerActivity.displayToast("Not unique Email");
+                            }
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
-                if (response.getMessage().equals("Not unique Email")) {
-                    registerActivity.displayToast("Not unique Email");
-                }
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
+            @Override
+            public void onFailure(Call<RegisterResponse> call, Throwable t) {
+                registerActivity.displayToast("Error while sending request");
+            }
+        });
     }
 
 }

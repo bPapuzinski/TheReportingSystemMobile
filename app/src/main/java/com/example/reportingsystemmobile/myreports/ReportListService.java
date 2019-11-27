@@ -1,28 +1,42 @@
 package com.example.reportingsystemmobile.myreports;
 
+import android.preference.PreferenceManager;
 import com.example.reportingsystemmobile.RestServiceBuilder;
+import retrofit2.Call;
+import retrofit2.Callback;
 import retrofit2.Response;
 
-import java.io.IOException;
 import java.util.List;
 
 public class ReportListService {
 
-    ReportListApiInterface reportListApiInterface = RestServiceBuilder.getClient().create(ReportListApiInterface.class);
-
     ReportListActivity reportListActivity;
+
+    ReportListApiInterface reportListApiInterface;
 
     public ReportListService(ReportListActivity reportListActivity) {
         this.reportListActivity = reportListActivity;
+        reportListApiInterface = RestServiceBuilder.getClient(reportListActivity.getApplicationContext()).create(ReportListApiInterface.class);
     }
 
-    public void getReportList(int id) {
+    public void getReportList() {
+        int preferences = PreferenceManager.getDefaultSharedPreferences(reportListActivity.getApplicationContext()).getInt ("USER_ID", 1);
 
-        try {
-            Response<List<ReportListResponse>> response = reportListApiInterface.getReportList(id).execute();
-            reportListActivity.setReportListResponseList(response.body());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        reportListApiInterface.getReportList(preferences).enqueue(new Callback<List<ReportListResponse>>() {
+            @Override
+            public void onResponse(Call<List<ReportListResponse>> call, Response<List<ReportListResponse>> response) {
+                if(response.isSuccessful()) {
+                    List<ReportListResponse> reportListResponses = response.body();
+                    reportListActivity.setReportListResponseList(reportListResponses);
+                } else {
+                    reportListActivity.displayToast("Error");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<ReportListResponse>> call, Throwable t) {
+                reportListActivity.displayToast("Error");
+            }
+        });
     }
 }

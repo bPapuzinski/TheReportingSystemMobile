@@ -1,6 +1,9 @@
 package com.example.reportingsystemmobile.login;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -36,8 +39,9 @@ public class LoginActivity extends AppCompatActivity {
             loginData.setUsername(usernameEditText.getText().toString());
             loginData.setPassword(passwordEditText.getText().toString());
 
-            new Thread(() -> loginService.login(loginData)).start();
+            loginService.login(loginData);
         });
+
         register.setOnClickListener(v -> {
             changeActivity(new Intent(this, RegisterActivity.class));
         });
@@ -49,5 +53,18 @@ public class LoginActivity extends AppCompatActivity {
 
     public void displayToast(String message) {
         runOnUiThread(() -> Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show());
+    }
+
+
+    // for checking internet connection
+    public boolean connect() {
+
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
+                connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

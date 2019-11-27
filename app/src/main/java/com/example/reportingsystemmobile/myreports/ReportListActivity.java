@@ -1,6 +1,7 @@
 package com.example.reportingsystemmobile.myreports;
 
 import android.os.Bundle;
+import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -24,12 +25,12 @@ public class ReportListActivity extends AppCompatActivity {
 
         reportListService = new ReportListService(this);
 
-        new Thread(() -> reportListService.getReportList(1)).start();
+        reportListService.getReportList();
 
         recyclerView = findViewById(R.id.recycleView);
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
-        while(reportListResponseList == null) {}
+        reportListResponseList = new ArrayList<>();
         adapter = new ReportListAdapter(reportListResponseList);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
@@ -37,5 +38,12 @@ public class ReportListActivity extends AppCompatActivity {
 
     public void setReportListResponseList(List<ReportListResponse> reportListResponseList) {
         this.reportListResponseList = reportListResponseList;
+        adapter = new ReportListAdapter(reportListResponseList);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(adapter);
+    }
+
+    public void displayToast(String message) {
+        runOnUiThread(() -> Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show());
     }
 }
