@@ -16,11 +16,11 @@ public class ReportListService {
 
     public ReportListService(ReportListActivity reportListActivity) {
         this.reportListActivity = reportListActivity;
-        reportListApiInterface = RestServiceBuilder.getClient(reportListActivity.getApplicationContext()).create(ReportListApiInterface.class);
+        reportListApiInterface = RestServiceBuilder.getClient(reportListActivity.getContext()).create(ReportListApiInterface.class);
     }
 
     public void getReportList() {
-        int preferences = PreferenceManager.getDefaultSharedPreferences(reportListActivity.getApplicationContext()).getInt ("USER_ID", 1);
+        int preferences = PreferenceManager.getDefaultSharedPreferences(reportListActivity.getContext()).getInt ("USER_ID", 1);
 
         reportListApiInterface.getReportList(preferences).enqueue(new Callback<List<ReportListResponse>>() {
             @Override

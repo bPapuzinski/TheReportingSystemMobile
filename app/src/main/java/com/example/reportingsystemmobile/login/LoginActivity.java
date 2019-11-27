@@ -1,38 +1,36 @@
 package com.example.reportingsystemmobile.login;
 
-import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 
+import androidx.fragment.app.Fragment;
 import com.example.reportingsystemmobile.R;
-import com.example.reportingsystemmobile.register.RegisterActivity;
+import com.example.reportingsystemmobile.menu.MainActivity;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends Fragment {
 
+    private View view;
     private EditText usernameEditText;
     private EditText passwordEditText;
     private Button loginButton;
     private Button register;
     private LoginService loginService;
 
+    @Nullable
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        view = inflater.inflate(R.layout.activity_login, container, false);
+        setupAllElements();
 
-        loginService = new LoginService(this);
-        usernameEditText = findViewById(R.id.username_edittext);
-        passwordEditText = findViewById(R.id.password_edittext);
-        loginButton = findViewById(R.id.login_button);
-        register = findViewById(R.id.registerAcc_button);
 
         loginButton.setOnClickListener(v -> {
             LoginData loginData = new LoginData();
@@ -43,28 +41,25 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         register.setOnClickListener(v -> {
-            changeActivity(new Intent(this, RegisterActivity.class));
+            displayToast("do wywalenia");
         });
+
+        return view;
     }
 
-    public void changeActivity(Intent intent) {
-        startActivity(intent);
+    public void setupAllElements() {
+        loginService = new LoginService(this);
+        usernameEditText = view.findViewById(R.id.username_edittext);
+        passwordEditText = view.findViewById(R.id.password_edittext);
+        loginButton = view.findViewById(R.id.login_button);
+        register = view.findViewById(R.id.registerAcc_button);
     }
 
     public void displayToast(String message) {
-        runOnUiThread(() -> Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show());
+        Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
     }
 
-
-    // for checking internet connection
-    public boolean connect() {
-
-        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        if (connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
-                connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED) {
-            return true;
-        } else {
-            return false;
-        }
+    public void replaceFragment(Class fragmentClass) {
+        ((MainActivity) getActivity()).replaceFragment(fragmentClass);
     }
 }

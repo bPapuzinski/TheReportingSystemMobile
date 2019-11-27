@@ -1,11 +1,9 @@
 package com.example.reportingsystemmobile.login;
 
-import android.content.Intent;
-
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import com.example.reportingsystemmobile.RestServiceBuilder;
-import com.example.reportingsystemmobile.menu.MenuActivity;
+import com.example.reportingsystemmobile.report.ReportActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -18,7 +16,7 @@ public class LoginService {
 
     public LoginService(LoginActivity loginActivity) {
         this.loginActivity = loginActivity;
-        loginApiInterface = RestServiceBuilder.getClient(loginActivity.getApplicationContext()).create(LoginApiInterface.class);
+        loginApiInterface = RestServiceBuilder.getClient(loginActivity.getContext()).create(LoginApiInterface.class);
     }
 
     public void login(LoginData loginData) {
@@ -28,11 +26,11 @@ public class LoginService {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                 if (response.code() == 200) {
-                    SharedPreferences.Editor memes = PreferenceManager.getDefaultSharedPreferences(loginActivity.getApplicationContext()).edit();
+                    SharedPreferences.Editor memes = PreferenceManager.getDefaultSharedPreferences(loginActivity.getContext()).edit();
                     memes.putInt("USER_ID", response.body().getUserId()).apply();
                     memes.commit();
                     loginActivity.displayToast("Logged");
-                    loginActivity.changeActivity(new Intent(loginActivity.getApplicationContext(), MenuActivity.class));
+                    loginActivity.replaceFragment(ReportActivity.class);
                 }
                 if (response.code() == 401) {
                     loginActivity.displayToast("Failed Login attempt");

@@ -1,0 +1,26 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent">
+
+    <group android:checkableBehavior="single">
+
+        <item
+                android:id="@+id/nav_login"
+                android:icon="@drawable/ic_menu_manage"
+                android:title="Login" />
+
+        <item
+                android:id="@+id/nav_register"
+                android:icon="@drawable/ic_menu_manage"
+                android:title="Register" />
+
+        <item
+                android:id="@+id/nav_report"
+                android:icon="@drawable/ic_menu_manage"
+                android:title="Report" />
+        <item
+                android:id="@+id/nav_report_list"
+                android:icon="@drawable/ic_menu_manage"
+                android:title="Report List" />
+    </group>
+</menu>

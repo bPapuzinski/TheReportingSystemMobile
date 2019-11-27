@@ -14,12 +14,12 @@ public class ReportService {
 
     public ReportService(ReportActivity reportActivity) {
         this.reportActivity = reportActivity;
-        reportApiInterface = RestServiceBuilder.getClient(reportActivity.getApplicationContext()).create(ReportApiInterface.class);
+        reportApiInterface = RestServiceBuilder.getClient(reportActivity.getContext()).create(ReportApiInterface.class);
     }
 
     public void sendNewReport(ReportData reportData) {
 
-        int preferences = PreferenceManager.getDefaultSharedPreferences(reportActivity.getApplicationContext()).getInt ("USER_ID", 1);
+        int preferences = PreferenceManager.getDefaultSharedPreferences(reportActivity.getContext()).getInt ("USER_ID", 1);
 
         reportData.setAuthorId(preferences);
         reportData.setCoordinate("11111");

@@ -1,7 +1,5 @@
 package com.example.reportingsystemmobile.register;
 
-import android.content.Intent;
-
 import com.example.reportingsystemmobile.RestServiceBuilder;
 import com.example.reportingsystemmobile.login.LoginActivity;
 import com.google.gson.Gson;
@@ -19,7 +17,7 @@ public class RegisterService {
 
     public RegisterService(RegisterActivity registerActivity) {
         this.registerActivity = registerActivity;
-        registerApiInterface = RestServiceBuilder.getClient(registerActivity.getApplicationContext()).create(RegisterApiInterface.class);
+        registerApiInterface = RestServiceBuilder.getClient(registerActivity.getContext()).create(RegisterApiInterface.class);
     }
 
     public void register(RegisterData registerData) {
@@ -32,7 +30,7 @@ public class RegisterService {
                     RegisterResponse registerResponse = response.body();
                     if (registerResponse.getHttpCode() == 201) {
                         registerActivity.displayToast("New account created");
-                        registerActivity.changeActivity(new Intent(registerActivity.getApplicationContext(), LoginActivity.class));
+                        registerActivity.replaceFragment(LoginActivity.class);
                     }
                 } else {
                     Gson g = new Gson();
