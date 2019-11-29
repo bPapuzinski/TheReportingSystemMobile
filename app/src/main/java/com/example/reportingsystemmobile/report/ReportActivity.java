@@ -40,7 +40,7 @@ public class ReportActivity extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.activity_report, container, false);
+        view = inflater.inflate(R.layout.fragment_report, container, false);
 
         setupElements();
 

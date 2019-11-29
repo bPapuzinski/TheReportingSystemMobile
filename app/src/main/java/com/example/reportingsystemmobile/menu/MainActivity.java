@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         nvDrawer = findViewById(R.id.nav_view);
+        userLogoutMenu();
         // Setup drawer view
         setupDrawerContent(nvDrawer);
     }
@@ -112,7 +113,17 @@ public class MainActivity extends AppCompatActivity {
 
         // Insert the fragment by replacing any existing fragment
         FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
+        fragmentManager.beginTransaction().replace(R.id.fragmentViewer, fragment).commit();
+    }
+
+    public void userLoggedMenu() {
+        nvDrawer.getMenu().setGroupVisible(R.id.login_register, false);
+        nvDrawer.getMenu().setGroupVisible(R.id.user_logged, true);
+    }
+
+    public void userLogoutMenu() {
+        nvDrawer.getMenu().setGroupVisible(R.id.login_register, true);
+        nvDrawer.getMenu().setGroupVisible(R.id.user_logged, false);
     }
 
     // for checking internet connection

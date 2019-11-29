@@ -1,6 +1,5 @@
 package com.example.reportingsystemmobile.register;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,7 +28,7 @@ public class RegisterActivity extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.activity_register, container, false);
+        view = inflater.inflate(R.layout.fragment_register, container, false);
 
         setupElements();
 

@@ -15,7 +15,7 @@
             android:usesCleartextTraffic="true">
         <activity
                 android:name=".menu.MainActivity"
-                android:label="title_activity_main">
+                android:label="Reporting System">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

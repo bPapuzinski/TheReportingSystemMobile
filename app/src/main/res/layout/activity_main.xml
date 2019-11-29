@@ -19,7 +19,7 @@
             android:layout_height="wrap_content" />
 
     <FrameLayout
-            android:id="@+id/flContent"
+            android:id="@+id/fragmentViewer"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
@@ -32,8 +32,8 @@
             android:layout_height="match_parent"
             android:layout_gravity="start"
             android:fitsSystemWindows="true"
-            app:menu="@menu/drawer_menu"/>
-<!--            app:headerLayout="@layout/drawer_menu"-->
+            app:menu="@menu/application_menu"
+            app:headerLayout="@layout/nav_header"/>
 
 
 </androidx.drawerlayout.widget.DrawerLayout>

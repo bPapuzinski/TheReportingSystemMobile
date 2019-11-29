@@ -1,6 +1,5 @@
 package com.example.reportingsystemmobile.login;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,7 +27,7 @@ public class LoginActivity extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.activity_login, container, false);
+        view = inflater.inflate(R.layout.fragment_login, container, false);
         setupAllElements();
 
 
@@ -59,7 +58,7 @@ public class LoginActivity extends Fragment {
         Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
     }
 
-    public void replaceFragment(Class fragmentClass) {
-        ((MainActivity) getActivity()).replaceFragment(fragmentClass);
+    public void changeMenuContext() {
+        ((MainActivity) getActivity()).userLoggedMenu();
     }
 }

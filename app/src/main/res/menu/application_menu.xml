@@ -2,7 +2,10 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent">
 
-    <group android:checkableBehavior="single">
+    <group
+            android:id="@+id/login_register"
+            android:checkableBehavior="single"
+            android:visible="true">
 
         <item
                 android:id="@+id/nav_login"
@@ -13,6 +16,11 @@
                 android:id="@+id/nav_register"
                 android:icon="@drawable/ic_menu_manage"
                 android:title="Register" />
+    </group>
+    <group
+            android:id="@+id/user_logged"
+            android:checkableBehavior="single"
+            android:visible="true">
 
         <item
                 android:id="@+id/nav_report"
@@ -22,5 +30,6 @@
                 android:id="@+id/nav_report_list"
                 android:icon="@drawable/ic_menu_manage"
                 android:title="Report List" />
+
     </group>
 </menu>

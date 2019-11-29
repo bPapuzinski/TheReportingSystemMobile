@@ -3,7 +3,6 @@ package com.example.reportingsystemmobile.login;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import com.example.reportingsystemmobile.RestServiceBuilder;
-import com.example.reportingsystemmobile.report.ReportActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -30,7 +29,7 @@ public class LoginService {
                     memes.putInt("USER_ID", response.body().getUserId()).apply();
                     memes.commit();
                     loginActivity.displayToast("Logged");
-                    loginActivity.replaceFragment(ReportActivity.class);
+                    loginActivity.changeMenuContext();
                 }
                 if (response.code() == 401) {
                     loginActivity.displayToast("Failed Login attempt");
