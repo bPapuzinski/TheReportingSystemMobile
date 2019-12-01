@@ -25,11 +25,11 @@ public class RestServiceBuilder {
                 .addInterceptor(logging)
                 .build();
 
-        String url = "http://192.168.2.10:8080";
-        String urlProd = "https://reportingsystembackend.herokuapp.com";
+        //String url = "http://192.168.2.10:8080";
+        String url = "https://reportingsystembackend.herokuapp.com";
 
         retrofit = new Retrofit.Builder()
-                .baseUrl(urlProd)
+                .baseUrl(url)
                 .client(client)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();

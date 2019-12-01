@@ -1,7 +1,6 @@
 package com.example.reportingsystemmobile.register;
 
 import com.example.reportingsystemmobile.RestServiceBuilder;
-import com.example.reportingsystemmobile.login.LoginActivity;
 import com.google.gson.Gson;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -30,7 +29,7 @@ public class RegisterService {
                     RegisterResponse registerResponse = response.body();
                     if (registerResponse.getHttpCode() == 201) {
                         registerActivity.displayToast("New account created");
-                        registerActivity.replaceFragment(LoginActivity.class);
+                        registerActivity.changeFragmentToLogin();
                     }
                 } else {
                     Gson g = new Gson();

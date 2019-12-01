@@ -2,6 +2,7 @@ package com.example.reportingsystemmobile.report;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.location.*;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -21,7 +22,10 @@ import androidx.fragment.app.Fragment;
 import com.example.reportingsystemmobile.R;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.Base64;
+import java.util.List;
+import java.util.Locale;
 
 public class ReportActivity extends Fragment {
 
@@ -34,7 +38,8 @@ public class ReportActivity extends Fragment {
     private EditText cityEditText;
     private Bitmap bitmap;
     private ReportService reportService;
-
+    double latitude;
+    double longitude;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Nullable
@@ -44,6 +49,29 @@ public class ReportActivity extends Fragment {
 
         setupElements();
 
+        try {
+            GPSTracker gps = new GPSTracker(getContext());
+            if (gps.canGetLocation()) {
+
+                Geocoder geocoder;
+                List<Address> addresses;
+                geocoder = new Geocoder(getContext(), Locale.getDefault());
+                latitude = gps.getLatitude();
+                longitude = gps.getLongitude();
+
+                addresses = geocoder.getFromLocation(latitude, longitude, 1);
+
+                cityEditText.setText(addresses.get(0).getLocality());
+                streetEditText.setText(addresses.get(0).getThoroughfare());
+                houseNumberEditText.setText(addresses.get(0).getFeatureName());
+
+            } else {
+                gps.showSettingsAlert();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         reportImageView.setOnClickListener(view -> {
             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             startActivityForResult(intent, 0);
@@ -51,6 +79,7 @@ public class ReportActivity extends Fragment {
 
         sendButton.setOnClickListener(view -> {
             ReportData reportData = new ReportData();
+            reportData.setCoordinate(longitude + ";" + latitude);
             reportData.setDescription(descriptionEditText.getText().toString());
             reportData.setStreet(streetEditText.getText().toString());
             reportData.setHouseNumber(houseNumberEditText.getText().toString());

@@ -2,6 +2,7 @@ package com.example.reportingsystemmobile.login;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -21,7 +22,6 @@ public class LoginActivity extends Fragment {
     private EditText usernameEditText;
     private EditText passwordEditText;
     private Button loginButton;
-    private Button register;
     private LoginService loginService;
 
     @Nullable
@@ -38,11 +38,6 @@ public class LoginActivity extends Fragment {
 
             loginService.login(loginData);
         });
-
-        register.setOnClickListener(v -> {
-            displayToast("do wywalenia");
-        });
-
         return view;
     }
 
@@ -51,7 +46,6 @@ public class LoginActivity extends Fragment {
         usernameEditText = view.findViewById(R.id.username_edittext);
         passwordEditText = view.findViewById(R.id.password_edittext);
         loginButton = view.findViewById(R.id.login_button);
-        register = view.findViewById(R.id.registerAcc_button);
     }
 
     public void displayToast(String message) {
@@ -60,5 +54,13 @@ public class LoginActivity extends Fragment {
 
     public void changeMenuContext() {
         ((MainActivity) getActivity()).userLoggedMenu();
+    }
+
+    public void changeUsernameInHeaderMenu(String username) {
+        ((MainActivity) getActivity()).changeUsernameInHeaderMenu(username);
+    }
+
+    public void changeFragmentToReport() {
+        ((MainActivity) getActivity()).selectDrawerItem(((MainActivity) getActivity()).getMenu().findItem(R.id.nav_report));
     }
 }

@@ -30,6 +30,8 @@ public class LoginService {
                     memes.commit();
                     loginActivity.displayToast("Logged");
                     loginActivity.changeMenuContext();
+                    loginActivity.changeUsernameInHeaderMenu(response.body().getUsername());
+                    loginActivity.changeFragmentToReport();
                 }
                 if (response.code() == 401) {
                     loginActivity.displayToast("Failed Login attempt");

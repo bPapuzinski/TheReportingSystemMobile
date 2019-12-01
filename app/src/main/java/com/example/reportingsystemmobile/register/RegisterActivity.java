@@ -53,8 +53,8 @@ public class RegisterActivity extends Fragment {
         registerService = new RegisterService(this);
     }
 
-    public void replaceFragment(Class fragmentClass) {
-        ((MainActivity) getActivity()).replaceFragment(fragmentClass);
+    public void changeFragmentToLogin() {
+        ((MainActivity) getActivity()).selectDrawerItem((((MainActivity) getActivity()).getMenu().findItem(R.id.nav_login)));
     }
 
     public void displayToast(String message) {
