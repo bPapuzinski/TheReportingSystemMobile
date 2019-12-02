@@ -8,35 +8,34 @@ import retrofit2.Response;
 
 public class ReportService {
 
-    private ReportActivity reportActivity;
+    private ReportFragment reportFragment;
 
     private ReportApiInterface reportApiInterface;
 
-    public ReportService(ReportActivity reportActivity) {
-        this.reportActivity = reportActivity;
-        reportApiInterface = RestServiceBuilder.getClient(reportActivity.getContext()).create(ReportApiInterface.class);
+    public ReportService(ReportFragment reportFragment) {
+        this.reportFragment = reportFragment;
+        reportApiInterface = RestServiceBuilder.getClient(reportFragment.getContext()).create(ReportApiInterface.class);
     }
 
     public void sendNewReport(ReportData reportData) {
 
-        int preferences = PreferenceManager.getDefaultSharedPreferences(reportActivity.getContext()).getInt ("USER_ID", 1);
+        int preferences = PreferenceManager.getDefaultSharedPreferences(reportFragment.getContext()).getInt ("USER_ID", 1);
 
         reportData.setAuthorId(preferences);
-        reportData.setCoordinate("11111");
             reportApiInterface.addNewReport(reportData).enqueue(new Callback<ReportResponse>() {
                 @Override
                 public void onResponse(Call<ReportResponse> call, Response<ReportResponse> response) {
                     if (response.code() == 201) {
-                        reportActivity.displayToast("Report added");
+                        reportFragment.displayToast("Report added");
                     }
                     if (response.code() == 400) {
-                        reportActivity.displayToast("Report not added");
+                        reportFragment.displayToast("Report not added");
                     }
                 }
 
                 @Override
                 public void onFailure(Call<ReportResponse> call, Throwable t) {
-                    reportActivity.displayToast("Error while sending request");
+                    reportFragment.displayToast("Error while sending request");
                 }
             });
     }

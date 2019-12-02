@@ -27,7 +27,7 @@ import java.util.Base64;
 import java.util.List;
 import java.util.Locale;
 
-public class ReportActivity extends Fragment {
+public class ReportFragment extends Fragment {
 
     private View view;
     private ImageView reportImageView;

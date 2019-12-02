@@ -9,13 +9,13 @@ import retrofit2.Response;
 
 public class LoginService {
 
-    private LoginActivity loginActivity;
+    private LoginFragment loginFragment;
 
     private LoginApiInterface loginApiInterface;
 
-    public LoginService(LoginActivity loginActivity) {
-        this.loginActivity = loginActivity;
-        loginApiInterface = RestServiceBuilder.getClient(loginActivity.getContext()).create(LoginApiInterface.class);
+    public LoginService(LoginFragment loginFragment) {
+        this.loginFragment = loginFragment;
+        loginApiInterface = RestServiceBuilder.getClient(loginFragment.getContext()).create(LoginApiInterface.class);
     }
 
     public void login(LoginData loginData) {
@@ -25,22 +25,22 @@ public class LoginService {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                 if (response.code() == 200) {
-                    SharedPreferences.Editor memes = PreferenceManager.getDefaultSharedPreferences(loginActivity.getContext()).edit();
+                    SharedPreferences.Editor memes = PreferenceManager.getDefaultSharedPreferences(loginFragment.getContext()).edit();
                     memes.putInt("USER_ID", response.body().getUserId()).apply();
                     memes.commit();
-                    loginActivity.displayToast("Logged");
-                    loginActivity.changeMenuContext();
-                    loginActivity.changeUsernameInHeaderMenu(response.body().getUsername());
-                    loginActivity.changeFragmentToReport();
+                    loginFragment.displayToast("Logged");
+                    loginFragment.changeMenuContext();
+                    loginFragment.changeUsernameInHeaderMenu(response.body().getUsername());
+                    loginFragment.changeFragmentToReportList();
                 }
                 if (response.code() == 401) {
-                    loginActivity.displayToast("Failed Login attempt");
+                    loginFragment.displayToast("Failed Login attempt");
                 }
             }
 
             @Override
             public void onFailure(Call<LoginResponse> call, Throwable t) {
-                loginActivity.displayToast("Error while sending request");
+                loginFragment.displayToast("Error while sending request");
             }
         });
     }

@@ -10,32 +10,32 @@ import java.util.List;
 
 public class ReportListService {
 
-    ReportListActivity reportListActivity;
+    ReportListFragment reportListFragment;
 
     ReportListApiInterface reportListApiInterface;
 
-    public ReportListService(ReportListActivity reportListActivity) {
-        this.reportListActivity = reportListActivity;
-        reportListApiInterface = RestServiceBuilder.getClient(reportListActivity.getContext()).create(ReportListApiInterface.class);
+    public ReportListService(ReportListFragment reportListFragment) {
+        this.reportListFragment = reportListFragment;
+        reportListApiInterface = RestServiceBuilder.getClient(reportListFragment.getContext()).create(ReportListApiInterface.class);
     }
 
     public void getReportList() {
-        int preferences = PreferenceManager.getDefaultSharedPreferences(reportListActivity.getContext()).getInt ("USER_ID", 1);
+        int preferences = PreferenceManager.getDefaultSharedPreferences(reportListFragment.getContext()).getInt ("USER_ID", 1);
 
         reportListApiInterface.getReportList(preferences).enqueue(new Callback<List<ReportListResponse>>() {
             @Override
             public void onResponse(Call<List<ReportListResponse>> call, Response<List<ReportListResponse>> response) {
                 if(response.isSuccessful()) {
                     List<ReportListResponse> reportListResponses = response.body();
-                    reportListActivity.setReportListResponseList(reportListResponses);
+                    reportListFragment.setReportListResponseList(reportListResponses);
                 } else {
-                    reportListActivity.displayToast("Error");
+                    reportListFragment.displayToast("Error");
                 }
             }
 
             @Override
             public void onFailure(Call<List<ReportListResponse>> call, Throwable t) {
-                reportListActivity.displayToast("Error");
+                reportListFragment.displayToast("Error");
             }
         });
     }

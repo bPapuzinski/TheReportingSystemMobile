@@ -2,7 +2,6 @@ package com.example.reportingsystemmobile.login;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -16,7 +15,7 @@ import androidx.fragment.app.Fragment;
 import com.example.reportingsystemmobile.R;
 import com.example.reportingsystemmobile.menu.MainActivity;
 
-public class LoginActivity extends Fragment {
+public class LoginFragment extends Fragment {
 
     private View view;
     private EditText usernameEditText;
@@ -60,7 +59,7 @@ public class LoginActivity extends Fragment {
         ((MainActivity) getActivity()).changeUsernameInHeaderMenu(username);
     }
 
-    public void changeFragmentToReport() {
-        ((MainActivity) getActivity()).selectDrawerItem(((MainActivity) getActivity()).getMenu().findItem(R.id.nav_report));
+    public void changeFragmentToReportList() {
+        ((MainActivity) getActivity()).selectDrawerItem(((MainActivity) getActivity()).getMenu().findItem(R.id.nav_report_list));
     }
 }

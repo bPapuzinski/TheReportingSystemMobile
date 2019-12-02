@@ -13,37 +13,23 @@ import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.reportingsystemmobile.R;
 
-import java.nio.ByteBuffer;
 import java.util.Base64;
 import java.util.List;
 
 public class ReportListAdapter extends RecyclerView.Adapter<ReportListAdapter.ReportListHolder> {
 
     private List<ReportListResponse> reportListResponses;
+    private ReportListFragment reportListFragment;
 
-    public static class ReportListHolder extends RecyclerView.ViewHolder {
-        private ImageView reportImage_ImageView;
-        private TextView reportStreet_TextView;
-        private TextView reportHouse_TextView;
-        private TextView reportCity_TextView;
-
-        public ReportListHolder(@NonNull View itemView) {
-            super(itemView);
-            reportImage_ImageView = itemView.findViewById(R.id.reportImage_imageView);
-            reportStreet_TextView = itemView.findViewById(R.id.reportStreet_textView);
-            reportHouse_TextView = itemView.findViewById(R.id.reportHouse_textView);
-            reportCity_TextView = itemView.findViewById(R.id.reportCity_textView);
-        }
-    }
-
-    public ReportListAdapter(List<ReportListResponse> reportListResponses){
+    public ReportListAdapter(List<ReportListResponse> reportListResponses, ReportListFragment reportListFragment) {
         this.reportListResponses = reportListResponses;
+        this.reportListFragment = reportListFragment;
     }
 
     @NonNull
     @Override
     public ReportListHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_report,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_report, parent, false);
         ReportListHolder reportListHolder = new ReportListHolder(view);
 
         return reportListHolder;
@@ -60,10 +46,28 @@ public class ReportListAdapter extends RecyclerView.Adapter<ReportListAdapter.Re
         holder.reportStreet_TextView.setText(currentItem.getStreet());
         holder.reportHouse_TextView.setText(currentItem.getHouseNumber());
         holder.reportCity_TextView.setText(currentItem.getCity());
+
+        holder.itemView.setOnClickListener(view -> reportListFragment.changeFragmentToReportDetails(currentItem.getId()));
+
     }
 
     @Override
     public int getItemCount() {
         return reportListResponses.size();
+    }
+
+    public static class ReportListHolder extends RecyclerView.ViewHolder {
+        private ImageView reportImage_ImageView;
+        private TextView reportStreet_TextView;
+        private TextView reportHouse_TextView;
+        private TextView reportCity_TextView;
+
+        public ReportListHolder(@NonNull View itemView) {
+            super(itemView);
+            reportImage_ImageView = itemView.findViewById(R.id.reportImage_imageView);
+            reportStreet_TextView = itemView.findViewById(R.id.reportStreet_textView);
+            reportHouse_TextView = itemView.findViewById(R.id.reportHouse_textView);
+            reportCity_TextView = itemView.findViewById(R.id.reportCity_textView);
+        }
     }
 }

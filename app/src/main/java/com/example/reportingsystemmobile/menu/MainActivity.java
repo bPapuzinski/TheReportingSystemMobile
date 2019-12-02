@@ -5,11 +5,13 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
@@ -19,10 +21,11 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import com.example.reportingsystemmobile.R;
-import com.example.reportingsystemmobile.login.LoginActivity;
-import com.example.reportingsystemmobile.myreports.ReportListActivity;
+import com.example.reportingsystemmobile.login.LoginFragment;
+import com.example.reportingsystemmobile.myreports.ReportListFragment;
 import com.example.reportingsystemmobile.register.RegisterActivity;
-import com.example.reportingsystemmobile.report.ReportActivity;
+import com.example.reportingsystemmobile.report.ReportFragment;
+import com.example.reportingsystemmobile.reportdetails.ReportDetailsFragment;
 import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity {
@@ -92,14 +95,14 @@ public class MainActivity extends AppCompatActivity {
                 fragmentClass = RegisterActivity.class;
                 break;
             case R.id.nav_report:
-                fragmentClass = ReportActivity.class;
+                fragmentClass = ReportFragment.class;
                 break;
             case R.id.nav_report_list:
-                fragmentClass = ReportListActivity.class;
+                fragmentClass = ReportListFragment.class;
                 break;
             case R.id.nav_login:
             default:
-                fragmentClass = LoginActivity.class;
+                fragmentClass = LoginFragment.class;
         }
 
         replaceFragment(fragmentClass);
@@ -111,6 +114,17 @@ public class MainActivity extends AppCompatActivity {
     public void replaceFragment(Class fragmentClass) {
         try {
             fragment = (Fragment) fragmentClass.newInstance();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.fragmentViewer, fragment).commit();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public void replaceFragmentWithReportDetails(int id) {
+        try {
+            fragment = (Fragment) new ReportDetailsFragment(id);
         } catch (Exception e) {
             e.printStackTrace();
         }
