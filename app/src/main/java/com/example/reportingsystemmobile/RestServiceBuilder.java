@@ -25,8 +25,8 @@ public class RestServiceBuilder {
                 .addInterceptor(logging)
                 .build();
 
-        //String url = "http://192.168.2.10:8080";
-        String url = "https://reportingsystembackend.herokuapp.com";
+        String url = "http://192.168.2.10:8080";
+        //String url = "https://reportingsystembackend.herokuapp.com";
 
         retrofit = new Retrofit.Builder()
                 .baseUrl(url)

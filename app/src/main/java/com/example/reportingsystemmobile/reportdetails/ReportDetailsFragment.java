@@ -14,9 +14,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import com.example.reportingsystemmobile.R;
 
+import java.util.ArrayList;
 import java.util.Base64;
+import java.util.List;
 
 @RequiresApi(api = Build.VERSION_CODES.O)
 public class ReportDetailsFragment extends Fragment {
@@ -27,6 +31,10 @@ public class ReportDetailsFragment extends Fragment {
     private TextView description;
     private TextView address;
     private int reportId;
+    private RecyclerView recyclerView;
+    private RecyclerView.Adapter adapter;
+    private RecyclerView.LayoutManager layoutManager;
+    private List<ReplayResponse> replayResponseList;
 
     public ReportDetailsFragment(int reportId) {
         this.reportId = reportId;
@@ -43,6 +51,15 @@ public class ReportDetailsFragment extends Fragment {
         reportDetailsService = new ReportDetailsService(this);
         reportDetailsService.getReportDetails(reportId);
 
+        recyclerView = view.findViewById(R.id.replyRecycleView);
+        recyclerView.setHasFixedSize(true);
+        layoutManager = new LinearLayoutManager(getContext());
+        replayResponseList = new ArrayList<>();
+        adapter = new ReplayAdapter(replayResponseList);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(adapter);
+
+
         return view;
     }
 
@@ -54,6 +71,11 @@ public class ReportDetailsFragment extends Fragment {
         byte[] img = Base64.getDecoder().decode(reportDetailsResponse.getImage().getBytes());
         Bitmap bitmap = BitmapFactory.decodeByteArray(img, 0, img.length);
         image.setImageBitmap(bitmap);
+
+        this.replayResponseList = reportDetailsResponse.getReplayList();
+        adapter = new ReplayAdapter(replayResponseList);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(adapter);
     }
 
     public void displayToast(String message) {

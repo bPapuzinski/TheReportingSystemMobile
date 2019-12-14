@@ -1,5 +1,7 @@
 package com.example.reportingsystemmobile.reportdetails;
 
+import java.util.List;
+
 class ReportDetailsResponse {
 
     private int id;
@@ -11,6 +13,7 @@ class ReportDetailsResponse {
     private String coordinate;
     private boolean active;
     private int authorId;
+    private List<ReplayResponse> replayList;
 
     public int getId() {
         return id;
@@ -82,5 +85,13 @@ class ReportDetailsResponse {
 
     public void setAuthorId(int authorId) {
         this.authorId = authorId;
+    }
+
+    public List<ReplayResponse> getReplayList() {
+        return replayList;
+    }
+
+    public void setReplayList(List<ReplayResponse> replayList) {
+        this.replayList = replayList;
     }
 }
