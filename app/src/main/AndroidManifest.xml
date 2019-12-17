@@ -16,7 +16,8 @@
             android:usesCleartextTraffic="true">
         <activity
                 android:name=".menu.MainActivity"
-                android:label="Reporting System">
+                android:label="Reporting System"
+                android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

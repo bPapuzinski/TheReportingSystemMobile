@@ -27,6 +27,7 @@ public class LoginService {
                 if (response.code() == 200) {
                     SharedPreferences.Editor memes = PreferenceManager.getDefaultSharedPreferences(loginFragment.getContext()).edit();
                     memes.putInt("USER_ID", response.body().getUserId()).apply();
+                    memes.putString("USERNAME", response.body().getUsername()).apply();
                     memes.commit();
                     loginFragment.displayToast("Logged");
                     loginFragment.changeMenuContext();

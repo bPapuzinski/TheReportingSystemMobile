@@ -29,6 +29,8 @@ import java.util.Locale;
 
 public class ReportFragment extends Fragment {
 
+    double latitude;
+    double longitude;
     private View view;
     private ImageView reportImageView;
     private Button sendButton;
@@ -38,8 +40,6 @@ public class ReportFragment extends Fragment {
     private EditText cityEditText;
     private Bitmap bitmap;
     private ReportService reportService;
-    double latitude;
-    double longitude;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Nullable
@@ -51,7 +51,7 @@ public class ReportFragment extends Fragment {
 
         try {
             GPSTracker gps = new GPSTracker(getContext());
-            if (gps.canGetLocation()) {
+            if (gps.canGetLocation() && gps.isGPSEnabled) {
 
                 Geocoder geocoder;
                 List<Address> addresses;
@@ -74,23 +74,33 @@ public class ReportFragment extends Fragment {
 
         reportImageView.setOnClickListener(view -> {
             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            intent.getAction();
             startActivityForResult(intent, 0);
         });
 
         sendButton.setOnClickListener(view -> {
-            ReportData reportData = new ReportData();
-            reportData.setCoordinate(longitude + ";" + latitude);
-            reportData.setDescription(descriptionEditText.getText().toString());
-            reportData.setStreet(streetEditText.getText().toString());
-            reportData.setHouseNumber(houseNumberEditText.getText().toString());
-            reportData.setCity(cityEditText.getText().toString());
+            if (descriptionEditText.getText().toString().equals("") ||
+                    streetEditText.getText().toString().equals("") ||
+                    houseNumberEditText.getText().toString().equals("") ||
+                    cityEditText.getText().toString().equals("") ||
+                    bitmap == null){
+                displayToast("All fields must have values");
 
-            ByteArrayOutputStream out = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
-            reportData.setImage(Base64.getEncoder().encodeToString(out.toByteArray()));
+            } else {
+                ReportData reportData = new ReportData();
+                reportData.setCoordinate(longitude + ";" + latitude);
+                reportData.setDescription(descriptionEditText.getText().toString());
+                reportData.setStreet(streetEditText.getText().toString());
+                reportData.setHouseNumber(houseNumberEditText.getText().toString());
+                reportData.setCity(cityEditText.getText().toString());
 
-            new Thread(() -> reportService.sendNewReport(reportData)).start();
-            System.out.println(reportData.toString());
+                ByteArrayOutputStream out = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
+                reportData.setImage(Base64.getEncoder().encodeToString(out.toByteArray()));
+
+                new Thread(() -> reportService.sendNewReport(reportData)).start();
+                System.out.println(reportData.toString());
+            }
         });
         return view;
     }
@@ -109,8 +119,10 @@ public class ReportFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        bitmap = (Bitmap) data.getExtras().get("data");
-        reportImageView.setImageBitmap(bitmap);
+        if(data.getExtras() != null) {
+            bitmap = (Bitmap) data.getExtras().get("data");
+            reportImageView.setImageBitmap(bitmap);
+        }
     }
 
     public void displayToast(String message) {

@@ -30,6 +30,7 @@ public class ReportDetailsFragment extends Fragment {
     private ImageView image;
     private TextView description;
     private TextView address;
+    private TextView status;
     private int reportId;
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
@@ -47,6 +48,7 @@ public class ReportDetailsFragment extends Fragment {
         image = view.findViewById(R.id.reportDetailsImage_imageView);
         description = view.findViewById(R.id.description_textView);
         address = view.findViewById(R.id.address_textView);
+        status = view.findViewById(R.id.status_textView);
 
         reportDetailsService = new ReportDetailsService(this);
         reportDetailsService.getReportDetails(reportId);
@@ -67,6 +69,11 @@ public class ReportDetailsFragment extends Fragment {
     public void updateData(ReportDetailsResponse reportDetailsResponse) {
         description.setText(reportDetailsResponse.getDescription());
         address.setText(reportDetailsResponse.getStreet() + " " + reportDetailsResponse.getHouseNumber() + " " + reportDetailsResponse.getCity());
+        if(reportDetailsResponse.isActive()) {
+            status.setText("Open");
+        } else {
+            status.setText("Closed");
+        }
 
         byte[] img = Base64.getDecoder().decode(reportDetailsResponse.getImage().getBytes());
         Bitmap bitmap = BitmapFactory.decodeByteArray(img, 0, img.length);

@@ -7,6 +7,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -30,12 +31,11 @@ import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity {
 
+    int TAG_CODE_PERMISSION_LOCATION;
     private DrawerLayout mDrawer;
     private NavigationView nvDrawer;
     private Fragment fragment;
     private Toolbar toolbar;
-    int TAG_CODE_PERMISSION_LOCATION;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
-        if(!connect()) {
+        if (!connect()) {
             Toast.makeText(getApplicationContext(), "No internet connection", Toast.LENGTH_LONG).show();
         }
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) ==
@@ -51,9 +51,9 @@ public class MainActivity extends AppCompatActivity {
                 ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) ==
                         PackageManager.PERMISSION_GRANTED) {
         } else {
-            ActivityCompat.requestPermissions(this, new String[] {
+            ActivityCompat.requestPermissions(this, new String[]{
                             Manifest.permission.ACCESS_FINE_LOCATION,
-                            Manifest.permission.ACCESS_COARSE_LOCATION },
+                            Manifest.permission.ACCESS_COARSE_LOCATION},
                     TAG_CODE_PERMISSION_LOCATION);
         }
         fragment = null;
@@ -66,7 +66,14 @@ public class MainActivity extends AppCompatActivity {
         mDrawer = findViewById(R.id.drawer_layout);
 
         nvDrawer = findViewById(R.id.nav_view);
-        userLogoutMenu();
+        if ((PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("AUTHORIZATION", "")).equals("")) {
+            userLogoutMenu();
+            replaceFragment(LoginFragment.class);
+        } else {
+            changeUsernameInHeaderMenu(PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("USERNAME", ""));
+            userLoggedMenu();
+            replaceFragment(ReportListFragment.class);
+        }
         setupDrawerContent(nvDrawer);
     }
 
@@ -100,6 +107,10 @@ public class MainActivity extends AppCompatActivity {
             case R.id.nav_report_list:
                 fragmentClass = ReportListFragment.class;
                 break;
+            case R.id.nav_logout:
+                fragmentClass = LoginFragment.class;
+                logout();
+                break;
             case R.id.nav_login:
             default:
                 fragmentClass = LoginFragment.class;
@@ -124,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void replaceFragmentWithReportDetails(int id) {
         try {
-            fragment = (Fragment) new ReportDetailsFragment(id);
+            fragment = new ReportDetailsFragment(id);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -133,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void changeUsernameInHeaderMenu(String username) {
-        TextView textView =  nvDrawer.getHeaderView(0).findViewById(R.id.usernameHeader_textview);
+        TextView textView = nvDrawer.getHeaderView(0).findViewById(R.id.usernameHeader_textview);
         textView.setText(username);
     }
 
@@ -147,8 +158,14 @@ public class MainActivity extends AppCompatActivity {
         nvDrawer.getMenu().setGroupVisible(R.id.user_logged, false);
     }
 
+    public void logout() {
+        PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().clear().commit();
+        changeUsernameInHeaderMenu("Username");
+        userLogoutMenu();
+    }
+
     public Menu getMenu() {
-        return  nvDrawer.getMenu();
+        return nvDrawer.getMenu();
     }
 
     public boolean connect() {
